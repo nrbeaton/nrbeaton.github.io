@@ -1,0 +1,579 @@
+<html>
+  <head>
+    <link rel="stylesheet" href="dist/reveal.css">
+    <link rel="stylesheet" href="dist/theme/highlights.css">
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    <style>
+    .thmDiv {
+      width: 96.5%;
+      padding: 10px;
+      border: 5px solid gray;
+      margin: 0 auto;
+      /* left: 50%; */
+      text-align: justify;
+    }
+    </style>
+  </head>
+  <body>
+    <div class="reveal">
+      <div class="slides">
+
+        <section>
+          <h3>Life on the lattice:</h3>
+          <h3>self-avoiding walks, polygons, animals, and more</h3>
+          <br />
+          Nicholas Beaton<br />
+          <a href="mailto:nrbeaton@unimelb.edu.au">nrbeaton@unimelb.edu.au</a>
+          <br /><br />
+          <i>Highlights in Mathematical Physics</i><br />
+          September 2, 2021
+        </section>
+
+        <section>
+          <h3>Summary</h3>
+          <ul>
+            <li><a href="#/intro">Introduction</a></li>
+            <li><a href="#/motivation">Motivation</a></li>
+            <li><a href="#/exact">Fundamental results & open questions</a></li>
+            <li><a href="#/computational">Computational methods & results</a></li>
+            <li><a href="#/further_reading">Further reading</a></li>
+          </ul>
+        </section>
+
+        <section id="intro">
+          <section>
+            <h3>Introduction</h3>
+            <p>
+              Suppose we want to walk from one corner of the CBD to the opposite corner, without ever walking along the same street segment twice.
+            </p>
+            <p class="fragment" data-fragment-index="1">
+              The street segments form a graph.
+            </p>
+            <p class="fragment" data-fragment-index="2">
+              Then a path that never visits the same vertex twice is a <em>self-avoiding walk</em>.
+            </p>
+            <div class="r-stack">
+              <img width="500" src="fig/melbourne_cbd_withpoints.png">
+              <img class="fragment" data-fragment-index="1" width="500" src="fig/melbourne_cbd_withgrid.png">
+              <img class="fragment" data-fragment-index="2" width="500" src="fig/melbourne_cbd_withpath.png">
+            </div>
+          </section>
+
+          <section>
+            <h3>Lattices</h3>
+            <p>
+              For our purposes a <em>lattice</em> is an infinite, connected, vertex-transitive graph.
+            </p>
+            <table>
+              <tr>
+                <td align="center"><img height="200" src="fig/square_lattice.svg"></td>
+                <td align="center"><img height="200" src="fig/triangular_lattice.svg"></td>
+                <td align="center"><img height="200" src="fig/honeycomb_lattice.svg"></td>
+              </tr>
+            </table>
+            <table>
+              <tr>
+                <!-- <td align="center"><iframe width="360" height="320" frameBorder="0" src="fig/sclattice.html"></iframe></td> -->
+                <td align="center"><iframe id="igraph" scrolling="no" style="border:none" seamless="seamless" src="fig/sclattice.html" width="360" height="320"></iframe></td>
+                <!-- <td align="center"><iframe width="360" height="320" frameBorder="0" src="fig/fcclattice_local.html"></iframe></td> -->
+                <td align="center"><iframe id="igraph" scrolling="no" style="border:none" seamless="seamless" src="fig/fcclattice.html" width="360" height="320"></iframe></td>
+                <!-- <td align="center"><iframe width="360" height="320" frameBorder="0" src="fig/bcclattice.html"></iframe></td> -->
+                <td align="center"><iframe id="igraph" scrolling="no" style="border:none" seamless="seamless" src="fig/bcclattice.html" width="360" height="320"></iframe></td>
+              </tr>
+            </table>
+          </section>
+
+          <section>
+            <h3>Self-avoiding walks</h3>
+            <p>
+              A <em>self-avoiding walk</em> (SAW) $\omega$ is a sequence of lattice vertices $(\omega_0, \omega_1, \dots, \omega_n)$ such that $\omega_i \neq \omega_j$ for $i\neq j$, and $\omega_i,\omega_{i+1}$ are adjacent on the lattice for each $i=0,\dots,n-1$. We say $\omega$ has size $|\omega| = n$.
+            </p>
+            <table>
+              <tr>
+                <td align="center"><img height="250px" src="fig/saw_2d.png"></td>
+                <td align="center"><iframe id="igraph" scrolling="no" style="border:none" seamless="seamless" src="fig/saw_3d.html" width="330" height="330"></iframe></td>
+              </tr>
+            </table>
+            <p>
+              Since the lattice is vertex-transitive, if one SAW is a translation of another  we consider them to be the same. Equivalently assume $\omega_0 = 0$.
+            </p>
+            <p>
+              For a given lattice take $c_n$ to be the number of SAWs of size $n$. Then eg. on the square lattice
+              \[ (c_n)_{n\geq0} = (1, 4, 12, 36, 100, 284, 780, \dots) \]
+            </p>
+          </section>
+
+          <section>
+            <h3>Self-avoiding polygons</h3>
+            <p>
+              A <em>self-avoiding polygon</em> (SAP) $\pi$ is a sequence of lattice vertices $(\pi_1, \pi_1, \dots, \pi_{n})$ such that $\pi_i \neq \pi_j$ for $i\neq j$, and $\pi_i,\pi_{i+1}$ are adjacent on the lattice, and so too are $\pi_1,\pi_n$. The size of $\pi$ is $n$.
+            </p>
+            <p>
+              Equivalently a SAP is a SAW which ends adjacent to its initial vertex.
+            </p>
+            <img height="200" src="fig/sap_2d.png">
+            <p>
+              For our purposes two SAPs are the same if they are translates of one another. So there are $2n$ SAWs (of length $n-1$) corresponding to each SAP of size $n$. Let $p_n$ be the number of size-$n$ SAPs. Then eg. on the square lattice
+              \[ (p_n)_{n\geq0} = (0,0,0,0,1,0,2,0,7,0,28,0,124,\dots) \]
+              (On some other lattices can have SAPs of odd size.)
+            </p>
+          </section>
+
+          <section>
+            <h3>Lattice animals</h3>
+            <p>
+              Two flavours: <em>bond animals</em> and <em>vertex animals</em>.
+            </p>
+            <p class="fragment" data-fragment-index="1">
+              A <em>bond animal</em> is a collection of lattice edges (ie. pairs of adjacent vertices) such that the resulting graph is connected. Every SAW or SAP is a bond animal.
+            </p>
+            <p class="fragment" data-fragment-index="2">
+              A <em>site animal</em> is a collection of lattice vertices such that the induced graph (ie. draw an edge between any pair of vertices which are adjacent on the lattice) is connected. <span class="fragment" data-fragment-index="4">These are also called <em>polyominoes</em>.</span>
+            </p>
+            <div class="r-stack">
+              <img class="fragment current-visible" data-fragment-index="1" height="200" src="fig/bond_animal.svg">
+              <img class="fragment current-visible" data-fragment-index="2" height="200" src="fig/site_animal.svg">
+              <img class="fragment current-visible" data-fragment-index="3" height="200" src="fig/site_animal_2.svg">
+              <img class="fragment" data-fragment-index="4" height="200" src="fig/polyomino.svg">
+            </div>
+            <p class="fragment" data-fragment-index="5">
+              In both cases the <em>size</em> is the number of edges and the <em>order</em> is the number of vertices. (For SAPs and SAWs these are equivalent.) As usual, counted up to translation.
+            </p>
+          </section>
+
+          <section>
+            <h3>Other lifeforms</h3>
+            <p>
+              There are many many other objects of study, eg.
+              <ul>
+                <li><em>Lattice trees:</em> lattice animals which contain no cycles.</li>
+                <li><em>Directed walks/animals/trees:</em> only allow steps/edges in certain directions.</li>
+                <li>SAPs can be counted by <em>area</em> instead of perimeter.
+                <li><em>Polycubes:</em> connected set of cubes, counted by volume.</li>
+                <li><em>Convex polygons</em></li>
+                <li><em>Punctured polygons</em></li>
+                <li>etc etc etc</li>
+              </ul>
+            </p>
+          </section>
+
+        </section>
+
+        <section>
+          <section id="motivation">
+            <h3>Motivation</h3>
+            <p>
+              These objects are interesting in their own right - lots of work dedicated to counting and analysing them.
+            </p>
+            <p>
+              But also lots of connections to other fields.
+            </p>
+          </section>
+
+          <section>
+            <h3>Polymer models</h3>
+            <p>
+              Conception for SAWs is usually credited to Paul Flory (<a href="https://doi.org/10.1063/1.1747243"><span style="color: #8B008B"><i>J. Chem Phys.</i> 1949</span></a>). He was interested in a theoretical model for <em>long linear polymer chains in solution</em>. In particular he wanted a model which accounted for the <em>excluded volume principle:</em> the idea that two monomers in a chain cannot occupy the same space.
+            </p>
+            <table>
+              <tr>
+                <td align="center"><img height="275px" src="fig/Single_Polymer_Chains_AFM.jpg"></td>
+                <td align="center"><img height="275px" src="fig/saw2d_2_25steps.png"></td>
+              </tr>
+              <tr>
+                <td align="center">poly(2-vinylpyridine) <a href="https://doi.org/10.1021%2Fja0558239"><span style="color: #8B008B">(Y. Roiter & S. Minko, <i>J. Amer. Chem. Soc.</i> 2005)</span></a></td>
+                <td align="center">square lattice SAW of length $2^{25}$ <a href="https://clisby.net/projects/saw_videos/"><span style="color: #8B008B">(N. Clisby 201?)</span></a></td>
+              </tr>
+            </table>
+
+            <p>
+              SAWs (or SAPs, trees, etc., depending on the model) turn out to be a good model for polymers in a good solvent (at least for long ones). They display the same <em>metric properties</em> - ie. how much they "spread out".
+            </p>
+
+          </section>
+
+          <section>
+            <h3>Interacting polymers</h3>
+            <p>
+              In addition to polymers floating in solution, polymers can interact with
+              <ul>
+                <li>themselves</li>
+                <li>other polymers</li>
+                <li>their environment</li>
+                <li>external forces</li>
+              </ul>
+            </p>
+            <table>
+              <tr>
+                <td align="center"><img height="300px" src="fig/collapse.svg"></td>
+                <td align="center"><img height="300px" src="fig/adsorption.svg"></td>
+                <td align="center"><img height="300px" src="fig/stretching.svg"></td>
+              </tr>
+            </table>
+            <p>
+              These systems undergo <em>phase transitions</em>.
+            </p>
+          </section>
+
+          <section>
+            <h3>Percolation</h3>
+            <p>
+              Animals (vertex or bond) are equivalent to <em>percolation clusters</em>, and SAWs and SAPs are also closely connected: eg. for bond percolation in $d\geq2$ dimensions
+              \[ \frac{1}{\mu_d} \leq p_c(d) \]
+              where $\mu_d$ is the <em>connective constant</em> of the lattice (defined later in this talk).
+            </p>
+          </section>
+
+          <section>
+            <h3>The $N$-vector model</h3>
+            <p>
+              The <em>$N$-vector model</em> is a generalisation of the <em>Ising model</em> of ferromagnetism. For the Ising model the Hamiltonian is
+              \[ \mathcal{H} = -\sum_{x\sim y} S^{(x)}S^{(y)} \]
+              where the sum is over all adjacent pairs of vertices, and the spins are $\pm1$. For some function $F$ of the spins, the expected value of $F$ is
+              \[ \langle F\rangle = \frac1Z \mathbb{E}(F e^{-\beta \mathcal{H}}) \]
+              where the expectation is with respect to the product of the Bernoulli measures on the spins, $\beta\geq0$ is inverse temperature, and $Z$ is the partition function
+              \[ Z = \mathbb{E}(e^{-\beta\mathcal{H}}).\]
+            </p>
+
+          </section>
+
+          <section>
+            <h3>The $N$-vector model cont'd</h3>
+            <p>
+              The <em>two-point function</em> is
+              \[ \langle F\rangle = \langle F(0,x)\rangle = \langle S^{(0)} S^{(x)}\rangle \]
+              For small $\beta$ (large $T$) this decays exponentially:
+              \[ \langle S^{(0)} S^{(x)}\rangle \bowtie e^{-r(\beta)|x|} \]
+            </p>
+            <p>
+              The <em>correlation length</em> is $\xi(\beta) = \frac{1}{r(\beta)}$. For $d\geq2$ there is a critical (inverse) temperature $\beta_c$ such that
+              \[ \xi(\beta) \sim \text{const.}(\beta_c-\beta)^{-\nu} \quad \text{as }\beta\nearrow\beta_c. \]
+              Similarly the <em>susceptibility</em> is
+              \[ \chi(\beta) = \frac1d\sum_x \langle S^{(0)}S^{(x)}\rangle \]
+              and
+              \[ \chi(\beta) \sim \text{const.}(\beta_c-\beta)^{-\gamma} \quad \text{as }\beta\nearrow\beta_c. \]
+            </p>
+
+          </section>
+
+          <section>
+            <h3>The $N$-vector model cont'd</h3>
+            <p>
+              For the $N$-vector model, the $\pm1$ spins are replaced by values in the $N$-dimensional sphere of radius $\sqrt{N}$. The product of spins becomes a dot product, and the measure becomes the product of uniform measures on the sphere. Quantities like two-point functions and susceptibilities are similarly defined.
+            </p>
+            <p>
+              P.G. de Gennes (<a href="https://doi.org/10.1016/0375-9601(72)90149-1"><span style="color: #8B008B"><i>Phys. Lett. A</i> 1972</span></a>) used (non-rigorous) renormalisation group methods to analyse the $N$-vector model, and then showed that one can (in a sense) take $N\to0$. This leads to a generating function for SAWs:
+              \[ \lim_{N\to0}\langle S^{(0)}_i \cdot S^{(x)}_j\rangle = \delta_{i,j} \sum_{\omega\,:\,0\to x}\beta^{|\omega|} \]
+              where $S^{(x)}_i$ is the $i$-th component of $S^{(x)}$ and the sum is over all SAWs from 0 to $x$.
+            </p>
+            <p>
+              Those renormalisation groups methods give exact (conjectural) values for critical exponents like $\nu$ and $\gamma$ in the $N\to0$ limit, which we will encounter again later. eg. in $d=2$
+              \[ \nu = \frac34 \qquad\qquad \gamma = \frac{43}{32}.\]
+            </p>
+          </section>
+
+          <section>
+            <h3>Knots</h3>
+            <p>
+              Headphone cables, shoelaces, necklaces, and even polymer molecules can get tangled up in knots and links.
+            </p>
+            <p>
+              H.L. Frisch and E. Wasserman (<a href="https://doi.org/10.1021/ja01479a015"><span style="color: #8B008B"><i>J. Amer. Chem. Soc.</i> 1961</span></a>) and M. Delbruck (<a href="https://doi.org/10.1090/psapm/014"><span style="color: #8B008B"><i>Proc. Symp. Appl. Math.</i> 1962</span></a>) conjectured that random simple closed curves in $\mathbb{R}^3$ will be <em>knotted with high probability</em>. More precisely, the probability of being <em>unknotted</em> decays exponentially with the length of the curve.
+            </p>
+            <table>
+              <tr>
+                <td align="center"><img height="200px" src="fig/knots.png"></td>
+                <td align="center"><img height="200px" src="fig/knots_polymer.png"></td>
+              </tr>
+              <tr>
+                <td></td>
+                <td>(<a href="https://doi.org/10.1126/science.2990045"><span style="color: #8B008B">S.A. Wasserman et al, <i>Science</i> 1985</span></a>)</td>
+            </table>
+            <p>
+              The FWD conjecture was first proved by D.W. Sumners and S.G. Whittington (<a href="https://doi.org/10.1088/0305-4470/21/7/030"><span style="color: #8B008B"><i>J. Phys. A: Math. Gen.</i> 1988</span></a>) for SAPs on the cubic lattice. Their method used <em>pattern theorems</em>.
+            </p>
+            <p>
+              Subsequently proved for a number of other models (on and off the lattice).
+            </p>
+          </section>
+        </section>
+
+        <section id="exact">
+          <section>
+            <h3>Fundamental results & open questions</h3>
+            <p>
+              The definitions of SAWs, SAPs etc. are easy to understand, but actually <em>proving anything</em> is a different story.
+            </p>
+
+            <p>
+              An explicit expression for $c_n$, $p_n$, etc. will almost certainly never be found.
+            </p>
+            <p>
+              A few important results have been proved, and more are widely expected to be true but remain unproved.
+            </p>
+          </section>
+
+          <section>
+            <h3>Subadditivity & connective constants</h3>
+            <div class="thmDiv">
+              <b>Theorem</b> (<a href="https://www.jstor.org/stable/2984008"><span style="color: #8B008B">J.M. Hammersley & K.W. Morton, <i>J. Royal Stat. Soc. B</i> 1954</span></a>)<br />
+              For a given lattice the limit
+              \[ \log \mu = \lim_{n\to\infty} \frac1n \log c_n \]
+              exists and is equal to $\inf_n \frac1n \log c_n$.
+            </div>
+            <p>
+              A SAW of length $m+n$ can be split into two SAWs of lengths $m$ and $n$, implying
+              \[ c_{m+n} \leq c_m c_n \quad \Rightarrow \quad \log c_{m+n} \leq \log c_m + \log c_n.\]
+            </p>
+            <div class="thmDiv">
+              <b>Lemma</b> (<a href="https://doi.org/10.1007/BF01504345"><span style="color: #8B008B">M. Fekete, <i>Math. Zeit.</i> 1923</span></a>)<br />
+              For a subadditive sequence $(a_n)_{n\geq1}$, the limit $\lim_{n\to\infty}\frac{a_n}{n}$ exists and equals $\inf_{n} \frac{a_n}{n}$ (which may be $-\infty$).
+            </div>
+            <p>
+              The value $\mu$ is called the <em>connective constant</em> of the lattice. Follows that
+              \[ c_n = e^{o(n)}\mu^n \]
+            </p>
+          </section>
+
+          <section>
+            <h3>Subadditivity & connective constants cont'd</h3>
+            <p>
+              In $d\geq2$ dimensions the value of $\mu$ is not known, except one special case:
+            </p>
+            <div class="thmDiv">
+              <b>Theorem</b> (<a href="https://doi.org/10.4007/annals.2012.175.3.14"><span style="color: #8B008B">Duminil-Copin & Smirnov, <i>Ann. Math.</i> 2012</span></a>)<br />
+              For the honeycomb lattice
+              \[ \mu = \sqrt{2+\sqrt{2}}. \]
+            </div>
+            <p>
+              Otherwise only have numerical estimates (later).
+            </p>
+          </section>
+
+          <section>
+            <h3>Superadditivity & connective constants</h3>
+            <p>
+              SAPs cannot be split in two like SAWs - but instead they can be concatenated:
+              \[ p_{m+n} \geq p_m p_m \]
+              In fact SAPs and SAWs are closely related.
+            </p>
+            <div class="thmDiv">
+              <b>Theorem</b> (<a href="https://doi.org/10.1017/S030500410003557X"><span style="color: #8B008B">J.M. Hammersley, <i>Proc. Cam. Phil. Soc.</i> 1961</span></a>)<br />
+              \[ \lim_{n\to\infty} \frac1n \log p_n = \log\mu \]
+              where $\mu$ is the same as for SAWs.
+            </div>
+            <p>
+              Fekete's lemma can be used to show that the limit exists, then SAPs can be split into SAWs to show it is the same $\mu$.
+            </p>
+
+            <p>
+              Animals are also superadditive $\Rightarrow$ they have growth rates. Not the same values as SAWs/SAPs.
+            </p>
+          </section>
+
+          <section>
+            <h3>Subexponential behaviour for SAWs and SAPs</h3>
+            <p>Recall that $c_n = e^{o(n)}\mu^n$. For $d=2,3$ it is believed that
+              \[ c_n = \text{const.}n^{\gamma-1}\mu^n(1+o(1)) \]
+              with same $\gamma$ as for the susceptibility of the $N$-vector model near criticality. Value of $\gamma$ depends on dimension, but not the specific lattice (unlike $\mu$). So for $d=2$ expected that $\gamma = \frac{43}{32}$.
+            </p>
+            <p>
+              For $d=4$ expected that $\gamma=1$ with an additional $(\log n)^{\frac14}$ factor.
+            </p>
+            <div class="thmDiv">
+              <b>Theorem</b> (<a href="https://doi.org/10.1007/BF02099530"><span style="color: #8B008B">T. Hara & G. Slade, <i>Comm. Math. Phys.</i> 1992</span></a>) <br />
+              For $d\geq5$,
+              \[ c_n = \text{const.}\mu^n(1+o(1)) \]
+            </div>
+            <p>
+              Similar story for SAPs: expected that
+              \[ p_n = \text{const.}n^{\alpha-3}\mu^n(1+o(1)) \]
+              with $(\log n)^{\frac14}$ correction when $d=4$. For $d=2$ expected that $\alpha=\frac12$.
+            </p>
+          </section>
+
+          <section>
+            <h3>Subexponential behaviour for animals</h3>
+            <p>
+              Lattice animals (bond and site) and trees are all believed to be in the same universality class, for all dimensions. Expect
+              \[ a_n = \text{const.}n^{-\theta}\lambda^n(1+o(1)) \]
+              where $\lambda$ depends on the model and/or lattice, but $\theta$ depends only on the dimension.
+            </p>
+            <p>
+              In 2D and 3D expect (<a href="https://doi.org/10.1103/PhysRevLett.46.871"><span style="color: #8B008B">G. Parisi & N. Sourlas, <i>Phys. Rev. Lett.</i> 1981</span></a>) $\theta=1$ and $\theta=\frac32$ respectively. For $d \geq 9$ expect mean-field behaviour $\Rightarrow$ $\theta=\frac52$. Logarithmic correction when $d=8$.
+          </section>
+
+          <section>
+            <h3>What do they look like?</h3>
+            <p>
+              Different ways of measuring this, but often want to know how "spread out" they are. eg. <em>radius of gyration</em> $R_g$ defined by
+              \[ R^2_g(\omega) = \frac{1}{2n^2}\sum_{\omega_i,\omega_j \in \omega} |\omega_i-\omega_j|^2 \]
+              where the sum is over all pairs of vertices in $\omega$.
+            </p>
+            <p>
+              Average over all objects of size $n$. Expect a power law
+              \[ \langle R_g\rangle_n = \text{const.}n^\nu(1+o(1)) \]
+              with a logarithmic correction for the upper critical dimension. Depends only on dimension, not the lattice.
+            </p>
+            <p>
+              For SAWs and SAPs this is the same $\nu$ as for the two-point function of the $N$-vector model, ie. $\nu=\frac34$ for $d=2$. For $d \geq 5$ it is the same as for random walks, ie. $\nu=\frac12$ (<a href="https://doi.org/10.1007/BF02099530"><span style="color: #8B008B">T. Hara & G. Slade, <i>Comm. Math. Phys.</i> 1992</span></a>)
+            </p>
+            <p>
+              For animals and trees $\nu$ expect $\nu=\frac12$ when $d=3$ and $\nu=\frac14$ when $d>8$.
+            </p>
+          </section>
+
+          <section>
+            <h3>Scaling relations</h3>
+            <p>
+              Let $G_z(0,x)$ be the generating functions of SAWs which start at $0$ and end at $x$:
+              \[ G_z(0,x) = \sum_{\omega\,:\,0\to x}z^{|\omega|} \]
+              Then with $z_c = \frac{1}{\mu}$, it is expected that
+              \[ G_{z_c}(0,x) \sim \frac{\text{const.}}{|x|^{d-2+\eta}} \quad\text{as }|x|\to\infty \]
+              for a constant $\eta$. The exponents $\gamma, \nu, \eta$ are then believed to obey <em>Fisher's scaling relation</em>
+              \[ \gamma = (2-\eta)\nu. \]
+            </p>
+            <p>
+              There also exist <em>hyperscaling relations</em> in which the dimension $d$ appears:
+              \begin{align*}
+              d\nu -2 + \alpha &= 0 \\
+              d\nu -2\Delta_4 + \gamma &= 0
+              \end{align*}
+              ($\Delta_4$ is another exponent related to pairs of SAWs.) However these are known to fail for $d\geq5$.
+            </p>
+          </section>
+
+        </section>
+
+        <section id="computational">
+          <section>
+            <h3>Computational methods & results</h3>
+            <p>
+              These generally fall into two categories: <em>series analysis</em> and <em>Monte Carlo</em> (random sampling) methods.
+            </p>
+            <p>
+              Typically (but not always) series analysis gives better results in $d=2$ and Monte Carlo does better for $d\geq3$. Main reason is that the numbers grow too fast in $d\geq3$ to get long enough series.
+            </p>
+            <p>
+              Recently some other transfer matrix methods have been developed for $d=2$.
+            </p>
+          </section>
+
+          <section>
+            <h3>Enumeration</h3>
+            <p>Many different methods for enumeration. In 2D the most powerful is the <em>finite lattice method</em> - counts configurations in boxes by building them one "slice" at a time:
+            </p>
+            <img width="300" src="fig/flm.png">
+            <p>
+              Originally developed by I. Enting (<a href="https://doi.org/10.1088/0305-4470/13/12/021"><span style="color: #8B008B"><i>J. Phys. A</i> 1980</span></a>) and subsequently improved by several others, most prominently I. Jensen.
+            </p>
+            <p>
+              For SAWs and SAPs, reduces computational complexity from $O(\mu^n)$ to about $O(1.2^n)$.
+            </p>
+            <p>
+              In higher dimensions the FLM does not work well - there are other algorithms which offer (much more modest) improvements over direct enumeration.
+            </p>
+          </section>
+
+          <section>
+            <h3>Series analysis</h3>
+            <p>
+              Basic idea: compute the coefficients of a sequence (eg. $c_n$) up to some $n=N$, then try to "extrapolate". A.J. Guttmann world expert in series analysis.
+            </p>
+            <p>
+              For example on the square lattice $p_n$ is known up to $n=130$ (<a href="https://doi.org/10.1088/1751-8113/45/11/115202"><span style="color: #8B008B">N. Clisby & I. Jensen, <i>J. Phys. A</i> 2012</span></a>). The best way to analyse the series is to use <em>differential approximants</em>, where one searches for DEs satisfied by the truncated power series
+              \[ C_N(z) = \sum_{n=0}^N c_n z^n \]
+              and then looks for singular points.
+            </p>
+          </section>
+
+          <section>
+            <h3>Monte Carlo methods</h3>
+            <p>
+              Many many different algorithms for random sampling configurations. Each has its own strengths and weaknesses.
+            </p>
+            <p>
+              One of the most powerful for SAWs & SAPs (in $\geq3$D) is the <em>pivot algorithm</em>. Essentially: choose a section of the object at random, and attempt to apply a random lattice symmetry (rotation or reflection). If the result is still self-avoiding, keep it; otherwise, reject.
+            </p>
+            <div class="r-stack">
+              <img class="fragment current-visible" data-fragment-index="1" height="250" src="fig/pivot2.svg">
+              <img class="fragment current-visible" data-fragment-index="2" height="250" src="fig/pivot1.svg">
+              <img class="fragment current-visible" data-fragment-index="3" height="250" src="fig/pivot4.svg">
+              <img class="fragment" data-fragment-index="4" height="250" src="fig/pivot3.svg">
+            </div>
+            <p class="fragment" data-fragment-index="5">
+              Proposed moves are rarely successful, but when they do succeed they make <em>large changes</em>. N. Clisby's algorithm (<a href="https://doi.org/10.1103/PhysRevLett.104.055702"><span style="color: #8B008B"><i>J. Stat. Phys.</i> 2010</span></a>) requires only $O(\log n)$ time per attempted move. He has used the algorithm to sample SAWs with billions of steps.
+            </p>
+            <p class="fragment" data-fragment-index="5">
+              One weakness is that for SAPs pivots can change the <em>topology</em>.
+            </p>
+
+          </section>
+
+          <section>
+            <h3>Connective constants</h3>
+            <p>
+              For the square lattice a completely different method using the eigenvalues of a "Topological Transfer Matrix" has recently been found (<a href="https://doi.org/10.1088/1751-8113/49/49/494004"><span style="color: #8B008B">J.L. Jacobsen et al, <i>J. Phys. A</i> 2016</span></a>) to be more efficient. The current best estimate is now
+              \[ \mu_\text{sq} = 2.63815853032790(3) \]
+            </p>
+            <p>
+              For the triangular lattice, series analysis does best (<a href="https://doi.org/10.1088/1742-5468/2004/10/p10008"><span style="color: #8B008B">I. Jensen, <i>J. Stat. Mech.</i> 2004</span></a>):
+              \[ \mu_\text{tri} = 4.150797226(9) \]
+            </p>
+            <p>
+              In 3D
+              \begin{align}
+              \mu_\text{sc} &= 4.684039931(27) \\
+              \mu_\text{fcc} &= 10.037075(20) \\
+              \mu_\text{bcc} &= 6.530520(20)
+              \end{align}
+              The sc value is due to a very sophisticated Monte Carlo study (<a href="http://dx.doi.org/10.1088/1751-8113/46/24/245001"><span style="color: #8B008B">N. Clisby, <i>J. Phys. A</i> 2013</span></a>); the fcc and bcc values come from series analysis (<a href="https://doi.org/10.1088/1742-5468/aa819f"><span style="color: #8B008B">Schram et al, <i>J. Stat. Mech.</i> 2017</span></a>).
+            </p>
+
+            <p>
+              (Estimates exist for growth rates of animals too.)
+            </p>
+          </section>
+
+          <section>
+            <h3>Critical exponents for SAWs</h3>
+            <p>
+              All numerical work strongly supports the conjectures $\gamma=\frac{43}{32}$ and $\nu = \frac34$ in 2D.
+            </p>
+            <p>
+              In 3D there is no reason to believe exponents are rational. Most precise estimates for SAWs are due to Clisby (<a href="https://doi.org/10.1088/1751-8121/aa7231"><span style="color: #8B008B"><i>J. Phys. A</i> 2017</span></a> and <a href="https://doi.org/10.1103/PhysRevLett.104.055702"><span style="color: #8B008B"><i>Phys. Rev. Lett.</i> 2010</span></a>)
+              \[ \gamma = 1.15695300(95) \qquad\text{and}\qquad \nu = 0.587597(7) \]
+            </p>
+          </section>
+        </section>
+
+        <section id="further_reading">
+          <section>
+            <h3>Further reading</h3>
+              <ul>
+                <li><span style="color: #8B008B">N. Madras & G. Slade, <i>The Self-Avoiding Walk</i>, Birkhäuser, 1996.</span></li>
+                <li><span style="color: #8B008B">A.J. Guttmann (ed), <i>Polygons, Polyominoes and Polycubes</i>, Springer, 2009.</span></li>
+                <li><span style="color: #8B008B">E.J. Janse van Rensburg, <i>The Statistical Mechanics of Interacting Walks, Polygons, Animals and Vesicles</i>, OUP, 2000.</span></li>
+              </ul>
+
+          </section>
+        </section>
+
+        <section>
+          <section>
+            Thanks for listening!
+          </section>
+        </section>
+
+
+      </div>
+    </div>
+    <script src="dist/reveal.js"></script>
+    <script src="plugin/math/math.js"></script>
+    <script>
+      Reveal.initialize({
+        plugins: [RevealMath]
+      });
+    </script>
+  </body>
+</html>
