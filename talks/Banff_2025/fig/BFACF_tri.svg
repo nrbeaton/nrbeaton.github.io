@@ -1,0 +1,195 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="132.07254mm"
+   height="15.13385mm"
+   viewBox="0 0 132.07254 15.133851"
+   version="1.1"
+   id="svg5"
+   inkscape:version="1.2.2 (b0a8486541, 2022-12-01)"
+   sodipodi:docname="BFACF_tri.svg"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview7"
+     pagecolor="#ffffff"
+     bordercolor="#000000"
+     borderopacity="0.25"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     inkscape:document-units="mm"
+     showgrid="true"
+     inkscape:zoom="1.829812"
+     inkscape:cx="170.78257"
+     inkscape:cy="18.854396"
+     inkscape:window-width="1499"
+     inkscape:window-height="1236"
+     inkscape:window-x="36"
+     inkscape:window-y="172"
+     inkscape:window-maximized="0"
+     inkscape:current-layer="layer1">
+    <inkscape:grid
+       type="axonomgrid"
+       id="grid9"
+       gridanglex="30"
+       gridanglez="30"
+       originx="89.851961"
+       originy="72.531465" />
+  </sodipodi:namedview>
+  <defs
+     id="defs2">
+    <marker
+       style="overflow:visible"
+       id="marker2803"
+       refX="0"
+       refY="0"
+       orient="auto-start-reverse"
+       inkscape:stockid="Arrow1"
+       markerWidth="4.0606604"
+       markerHeight="6.7071066"
+       viewBox="0 0 4.0606602 6.7071068"
+       inkscape:isstock="true"
+       inkscape:collect="always"
+       preserveAspectRatio="xMidYMid">
+      <path
+         style="fill:none;stroke:context-stroke;stroke-width:1;stroke-linecap:butt"
+         d="M 3,-3 0,0 3,3"
+         id="path2801"
+         transform="rotate(180,0.125,0)"
+         sodipodi:nodetypes="ccc" />
+    </marker>
+    <marker
+       style="overflow:visible"
+       id="Arrow1"
+       refX="0"
+       refY="0"
+       orient="auto-start-reverse"
+       inkscape:stockid="Arrow1"
+       markerWidth="4.0606604"
+       markerHeight="6.7071066"
+       viewBox="0 0 4.0606602 6.7071068"
+       inkscape:isstock="true"
+       inkscape:collect="always"
+       preserveAspectRatio="xMidYMid">
+      <path
+         style="fill:none;stroke:context-stroke;stroke-width:1;stroke-linecap:butt"
+         d="M 3,-3 0,0 3,3"
+         id="path5057"
+         transform="rotate(180,0.125,0)"
+         sodipodi:nodetypes="ccc" />
+    </marker>
+  </defs>
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1"
+     transform="translate(-15.148037,-75.968548)">
+    <path
+       style="fill:#d9d9d9;fill-opacity:1;stroke:none;stroke-width:0.665001"
+       d="m 131.21977,90.030664 h -15 l 7.5,-12.99038 z"
+       id="path2526" />
+    <path
+       style="fill:#d9d9d9;fill-opacity:1;stroke:none;stroke-width:0.665001"
+       d="m 46.219771,90.030664 h -15 l 7.5,-12.99038 z"
+       id="path2524" />
+    <path
+       style="fill:none;stroke:#000000;stroke-width:0.665001"
+       d="m 16.219771,90.030664 h 15 15 15"
+       id="path115" />
+    <circle
+       style="fill:#000000;fill-opacity:1;stroke:#000000;stroke-width:0.28536"
+       id="path171"
+       cx="90.030663"
+       cy="-16.219772"
+       r="0.92905539"
+       inkscape:transform-center-x="-2.1895228"
+       inkscape:transform-center-y="-0.20877782"
+       transform="rotate(90)" />
+    <circle
+       style="fill:#000000;fill-opacity:1;stroke:#000000;stroke-width:0.28536"
+       id="circle2457"
+       cx="90.030663"
+       cy="-31.219772"
+       r="0.92905539"
+       inkscape:transform-center-x="-2.1895228"
+       inkscape:transform-center-y="-0.20877782"
+       transform="rotate(90)" />
+    <circle
+       style="fill:#000000;fill-opacity:1;stroke:#000000;stroke-width:0.28536"
+       id="circle2459"
+       cx="90.030663"
+       cy="-46.219772"
+       r="0.92905539"
+       inkscape:transform-center-x="-2.1895228"
+       inkscape:transform-center-y="-0.20877782"
+       transform="rotate(90)" />
+    <circle
+       style="fill:#000000;fill-opacity:1;stroke:#000000;stroke-width:0.28536"
+       id="circle2461"
+       cx="90.030663"
+       cy="-61.219772"
+       r="0.92905539"
+       inkscape:transform-center-x="-2.1895228"
+       inkscape:transform-center-y="-0.20877782"
+       transform="rotate(90)" />
+    <path
+       style="fill:none;stroke:#000000;stroke-width:0.665001"
+       d="m 101.14883,90.030667 h 15 l 7.57094,-12.990384 7.42906,12.990384 h 15"
+       id="path2463"
+       sodipodi:nodetypes="ccccc" />
+    <circle
+       style="fill:#000000;fill-opacity:1;stroke:#000000;stroke-width:0.28536"
+       id="circle2465"
+       cx="90.030663"
+       cy="-101.14883"
+       r="0.92905539"
+       inkscape:transform-center-x="-2.1895228"
+       inkscape:transform-center-y="-0.20877782"
+       transform="rotate(90)" />
+    <circle
+       style="fill:#000000;fill-opacity:1;stroke:#000000;stroke-width:0.28536"
+       id="circle2467"
+       cx="90.030663"
+       cy="-116.14883"
+       r="0.92905539"
+       inkscape:transform-center-x="-2.1895228"
+       inkscape:transform-center-y="-0.20877782"
+       transform="rotate(90)" />
+    <circle
+       style="fill:#000000;fill-opacity:1;stroke:#000000;stroke-width:0.28536"
+       id="circle2469"
+       cx="90.030663"
+       cy="-131.14882"
+       r="0.92905539"
+       inkscape:transform-center-x="-2.1895151"
+       inkscape:transform-center-y="-0.20877782"
+       transform="rotate(90)" />
+    <circle
+       style="fill:#000000;fill-opacity:1;stroke:#000000;stroke-width:0.28536"
+       id="circle2471"
+       cx="90.030663"
+       cy="-146.14883"
+       r="0.92905539"
+       inkscape:transform-center-x="-2.1895285"
+       inkscape:transform-center-y="-0.20877782"
+       transform="rotate(90)" />
+    <circle
+       style="fill:#000000;fill-opacity:1;stroke:#000000;stroke-width:0.28536"
+       id="circle2522"
+       cx="77.040283"
+       cy="-123.71977"
+       r="0.92905539"
+       inkscape:transform-center-x="-2.1895228"
+       inkscape:transform-center-y="-0.20877782"
+       transform="rotate(90)" />
+    <path
+       style="fill:none;fill-opacity:1;stroke:#000000;stroke-width:0.665001;stroke-opacity:1;marker-start:url(#Arrow1);marker-end:url(#marker2803)"
+       d="M 88.719773,85.700535 H 73.719772"
+       id="path2582" />
+  </g>
+</svg>

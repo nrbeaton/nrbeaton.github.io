@@ -1,0 +1,711 @@
+<html>
+  <head>
+    <link rel="stylesheet" href="dist/reveal.css">
+    <link rel="stylesheet" href="dist/theme/highlights.css">
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    <style>
+    .thmDiv {
+      width: 96.5%;
+      padding: 10px;
+      border: 5px solid gray;
+      margin: 0 auto;
+      /* left: 50%; */
+      text-align: justify;
+    }
+    </style>
+    <title>BIRS 2025</title>
+  </head>
+  <body>
+    <div class="reveal">
+      <div class="slides">
+
+        <section>
+          <h3>Lattice models of theta-shaped polymers</h3>
+          <br />
+          Nicholas Beaton, James Gleeson and Aleks Owczarek<br />
+          <br />
+          University of Melbourne<br />
+          VIC, Australia<br />
+          <br />
+          Polymer Modelling and DNA Topology<br />
+          Banff International Research Station, November 10-14, 2025
+
+        </section>
+
+        <section>
+          <h3>Summary</h3>
+          <ul>
+            <li><a href="#/intro">Introduction</a></li>
+            <li><a href="#/motivation">Motivation</a></li>
+            <li><a href="#/montecarlo">Monte Carlo methods</a></li>
+            <li><a href="#/thetas2d">Results: 2D</a></li>
+            <li><a href="#/thetas3d">Results: 3D</a></li>
+            <li><a href="#/futurework">Ongoing & future work</a></li>
+          </ul>
+        </section>
+
+        <section id="intro">
+          <section>
+            <h3>Introduction</h3>
+          </section>
+
+          <section>
+            <h3>Self-avoiding walks</h3>
+            <p>
+              A <em>self-avoiding walk</em> (SAW) $\omega$ is a sequence of lattice vertices $(\omega_0, \omega_1, \dots, \omega_n)$ such that $\omega_i \neq \omega_j$ for $i\neq j$, and $\omega_i,\omega_{i+1}$ are adjacent on the lattice for each $i=0,\dots,n-1$. We say $\omega$ has size $|\omega| = n$.
+            </p>
+            <table>
+              <tr>
+                <td align="center"><img height="250px" src="fig/saw_2d.png"></td>
+                <td align="center"><iframe id="igraph" scrolling="no" style="border:none" seamless="seamless" src="fig/saw_3d.html" width="330" height="330"></iframe></td>
+              </tr>
+            </table>
+            <p>
+              Since the lattice is vertex-transitive, if one SAW is a translation of another  we consider them to be the same. Equivalently assume $\omega_0 = 0$.
+            </p>
+            <p>
+              For a given lattice take $c_n$ to be the number of SAWs of size $n$. Then e.g. on the square lattice
+              \[ (c_n)_{n\geq0} = (1, 4, 12, 36, 100, 284, 780, \dots) \]
+            </p>
+          </section>
+
+          <section>
+            <h3>Self-avoiding polygons</h3>
+            <p>
+              A <em>self-avoiding polygon</em> (SAP) $\pi$ is a sequence of lattice vertices $(\pi_1, \pi_1, \dots, \pi_{n})$ such that $\pi_i \neq \pi_j$ for $i\neq j$, and $\pi_i,\pi_{i+1}$ are adjacent on the lattice, and so too are $\pi_1,\pi_n$. The size of $\pi$ is $n$.
+            </p>
+            <p>
+              Equivalently a SAP is a SAW which ends adjacent to its initial vertex.
+            </p>
+            <img height="200" src="fig/sap_2d.png">
+            <p>
+              For our purposes two SAPs are the same if they are translates of one another. So there are $2n$ SAWs (of length $n-1$) corresponding to each SAP of size $n$. Let $p_n$ be the number of size-$n$ SAPs. Then e.g. on the square lattice
+              \[ (p_n)_{n\geq4} = (1,0,2,0,7,0,28,0,124,\dots) \]
+              (On the triangular and fcc lattices SAPs can have odd size.)
+            </p>
+          </section>
+
+          <section>
+            <h3>Thetas and tadpoles</h3>
+            <p>
+              SAPS have all vertices of degree 2 while SAWs have two vertices of degree 1. Here we introduce vertices of degree 3: <em>thetas</em> (two vertices of degree 3) and <em>tadpoles</em> (one degree 1 and one degree 3).
+            </p>
+            <table>
+              <tr>
+                <td align="center"><img height="250px" src="fig/square_lattice_theta.svg"></td>
+              </tr>
+            </table>
+            <p>
+              Again counted up to translation. On the square lattice 
+              \begin{align*} 
+              (\theta_n)_{n \geq 7} &= (2, 0, 12, 6, 62, 60, 338, 430, 1966, \dots) \\
+              (\varphi_n)_{n \geq 5} &= (8, 24, 84, 244, 740, 2072, 6004, \dots)
+              \end{align*}
+            </p>
+          </section>
+
+          <section>
+            <h3>Lattices</h3>
+            <table>
+              <tr>
+                <td align="center"><img height="200" src="fig/square_lattice.svg"></td>
+                <td align="center"><img height="200" src="fig/triangular_lattice.svg"></td>
+                <td align="center"><img height="200" src="fig/honeycomb_lattice.svg"></td>
+              </tr>
+            </table>
+            <table>
+              <tr>
+                <!-- <td align="center"><iframe width="360" height="320" frameBorder="0" src="fig/sclattice.html"></iframe></td> -->
+                <td align="center"><iframe id="igraph" scrolling="no" style="border:none" seamless="seamless" src="fig/sclattice.html" width="360" height="320"></iframe></td>
+                <!-- <td align="center"><iframe width="360" height="320" frameBorder="0" src="fig/fcclattice_local.html"></iframe></td> -->
+                <td align="center"><iframe id="igraph" scrolling="no" style="border:none" seamless="seamless" src="fig/fcclattice.html" width="360" height="320"></iframe></td>
+                <!-- <td align="center"><iframe width="360" height="320" frameBorder="0" src="fig/bcclattice.html"></iframe></td> -->
+                <td align="center"><iframe id="igraph" scrolling="no" style="border:none" seamless="seamless" src="fig/bcclattice.html" width="360" height="320"></iframe></td>
+              </tr>
+            </table>
+            <p>
+              On the square and cubic lattices, the three "arms" of a theta must have the same parity $\rightarrow$ strong parity effects. Not a problem on the triangular or fcc lattices.
+            </p>
+          </section>
+
+        </section>
+
+        <section id="motivation">
+          <section>
+            <h3>Motivation</h3>
+          </section>
+
+          <section>
+            <h3>Polymer models</h3>
+            <p>
+              Conception for SAWs is usually credited to Paul Flory (<a href="https://doi.org/10.1063/1.1747243"><span style="color: #8B008B"><i>J. Chem Phys.</i> 1949</span></a>). He was interested in a theoretical model for <em>long linear polymer chains in solution</em>. In particular he wanted a model which accounted for the <em>excluded volume principle:</em> the idea that two monomers in a chain cannot occupy the same space.
+            </p>
+            <table>
+              <tr>
+                <td align="center"><img height="275px" src="fig/Single_Polymer_Chains_AFM.jpg"></td>
+                <td align="center"><img height="275px" src="fig/saw2d_2_25steps.png"></td>
+              </tr>
+              <tr>
+                <td align="center">poly(2-vinylpyridine) <a href="https://doi.org/10.1021%2Fja0558239"><span style="color: #8B008B">(Y. Roiter & S. Minko, <i>J. Amer. Chem. Soc.</i> 2005)</span></a></td>
+                <td align="center">square lattice SAW of length $2^{25}$ <a href="https://clisby.net/projects/saw_videos/"><span style="color: #8B008B">(N. Clisby 201?)</span></a></td>
+              </tr>
+            </table>
+
+            <p>
+              SAWs (or SAPs, trees, etc., depending on the model) turn out to be a good model for polymers in a good solvent (at least for long ones).
+            </p>
+
+          </section>
+
+          <section>
+            <h3>Knots</h3>
+            <p>
+              Headphone cables, shoelaces, necklaces, and even polymer molecules can get tangled up in knots and links.
+            </p>
+            <p>
+              H.L. Frisch and E. Wasserman (<a href="https://doi.org/10.1021/ja01479a015"><span style="color: #8B008B"><i>J. Amer. Chem. Soc.</i> 1961</span></a>) and M. Delbruck (<a href="https://doi.org/10.1090/psapm/014"><span style="color: #8B008B"><i>Proc. Symp. Appl. Math.</i> 1962</span></a>) conjectured that random simple closed curves in $\mathbb{R}^3$ will be <em>knotted with high probability</em>. More precisely, the probability of being <em>unknotted</em> decays exponentially with the length of the curve.
+            </p>
+            <table>
+              <tr>
+                <td align="center"><img height="200px" src="fig/knots.png"></td>
+                <td align="center"><img height="200px" src="fig/knots_polymer.png"></td>
+              </tr>
+              <tr>
+                <td></td>
+                <td>(<a href="https://doi.org/10.1126/science.2990045"><span style="color: #8B008B">S.A. Wasserman et al, <i>Science</i> 1985</span></a>)</td>
+            </table>
+            <p>
+              The FWD conjecture was first proved by D.W. Sumners and S.G. Whittington (<a href="https://doi.org/10.1088/0305-4470/21/7/030"><span style="color: #8B008B"><i>J. Phys. A: Math. Gen.</i> 1988</span></a>) for SAPs on the cubic lattice. Their method used <em>pattern theorems</em>.
+            </p>
+            <p>
+              Subsequently proved for a number of other models (on and off the lattice).
+            </p>
+          </section>
+
+          <section>
+            <h3>The size of knots</h3>
+            <p>
+              Knots are very likely because small "knotted parts" can be inserted into a polygon and force it to be knotted. But in turn the "knotted part" of a typical large knotted polygon is relatively small.
+            </p>
+            <table>
+              <tr>
+                <td align="center"><img height="150px" src="fig/bigknot.png"></td>
+                <td align="center"><img height="150px" src="fig/littleknot.png"></td>
+              </tr>
+            </table>
+              <p>
+                Different ways to estimate the "size" of the knotted part. Marcone et al (<a href="https://iopscience.iop.org/article/10.1088/0305-4470/38/1/L03"><span style="color: #8B008B"><i>J. Phys. A</i> 2005</span></a>) use two different methods:
+              </p>
+              <table>
+                <tr>
+                  <td align="center"><img height="150px" src="fig/marcone_first.png"></td>
+                  <td align="center"><img height="150px" src="fig/marcone_second.png"></td>
+                </tr>
+              </table>
+              <p>
+                Both methods lead to an estimate of the knotted part of an $n$-edge prime knot occupying $\approx n^{0.75}$ edges on average.
+              </p>
+          </section>
+
+          <section>
+            <h3>Knots vs. thetas</h3>
+            <p>
+              <em>Question:</em> How do the different parts of a typical theta scale in size? Most likely two arms are small and one big:
+            </p>
+          <img width=500 src="fig/thetas.png"></img>
+          </section>
+
+          <section>
+            <h3>R-loops</h3>
+            <p>
+              During DNA transcription, single-stranded RNA can fuse with double-stranded RNA to form <em>R-loops:</em>
+            </p>
+            <table>
+              <tr>
+                <td align="center"><img width=500 src="fig/RNA_transcription_2.png"></img></td>
+              </tr>
+              <tr>
+                <td align="center"><a href="https://doi.org/10.1007/978-3-030-57129-0_3"><span style="color: #8B008B">Jonoska et al, <i>Using Mathematics to Understand Biological Complexity</i> 2021</span></a></td>
+              </tr>
+              <tr>
+                <td align="center"><img width=800 src="fig/Rloops_DNA.png"></img></td>
+              </tr>
+              <tr>
+                <td align="center"><a href="https://doi.org/10.1093/nar/gkz341"><span style="color: #8B008B">Carrasco-Salas et al, Nucleic Acids Res. 2019</span></a></td>
+              </tr>
+            </table>
+            <p>
+              The presence of R-loops can affect repair, eg. in human cells.
+            </p>
+          </section>
+
+          <section>
+            <h3>R-loops</h3>
+            <p>
+              Topologically the DNA:RNA hybrid is a graph with two vertices of degree 3 or 4:
+            </p>
+            <img width=400 src="fig/graphs.png"></img>
+            <p>
+              Different parts are single- or double-stranded so may have different stiffness etc.
+            </p>
+          </section>
+
+          <section>
+            <h3>Knotted theta-graphs</h3>
+            <p>
+              Thetas can also have non-trivial topology -- open questions about minimum number of edges required, etc.
+            </p>
+            <table>
+              <tr>
+                <td align="center"><img width=700 src="fig/knotted_thetas.png"></img></td>
+              </tr>
+              <tr>
+                <td align="center"><a href="https://arxiv.org/abs/1710.05237"><span style="color: #8B008B">Buck & O'Donnol 2018</span></a></td>
+              </tr>
+            </table>
+          </section>
+
+        </section>
+
+        <section id="montecarlo">
+          <section>
+            <h3>Monte Carlo methods</h3>
+          </section>
+
+          <section>
+            <h3>BFACF algorithm</h3>
+            <p>
+              The BFACF algorithm (Berg & Foester <a href="https://doi.org/10.1016/0370-2693(81)90545-1"><span style="color: #8B008B">1981</span></a>, Arag&#227;o de Carvalho, Caracciolo & Fr&#246;hlich <a href="https://doi.org/10.1051/jphys:01983004403032300"><span style="color: #8B008B">1983</span></a> and <a href="https://doi.org/10.1016/0550-3213(83)90213-4"><span style="color: #8B008B">1983</span></a>) is a method for sampling SAWs and SAPs which <em>preserves topology</em>.
+            </p>
+            <img width="350" src="fig/BFACF.png"></img>
+            <p>
+              For 2D SAPs it is ergodic while in 3D the ergodicity classes are the knot types. For SAWs the ergodicity classes are walks between two <em>fixed endpoints</em>.
+            </p>
+            <p>
+              Also works on the triangular lattice. 
+            </p>
+            <img width="350" src="fig/BFACF_tri.png"></img>
+          </section>
+
+          <section>
+            <h3>BFACF algorithm</h3>
+            <p>
+              For the fcc and bcc lattices, Janse van Rensburg and Rechnitzer (<a href="https://doi.org/10.1088/1751-8113/44/16/165001"><span style="color: #8B008B">2011</span></a>) found a set of moves which also give the knot types as the ergodicity classes.
+            </p>
+            <table>
+              <tr>
+                <td align="center"><img width=330 src="fig/BFACF_fcc.png"></img></td>
+                <td align="center"><img width=330 src="fig/BFACF_bcc.png"></img></td>
+              </tr>
+            </table>
+          </section>
+
+          <section>
+            <h3>BFACF for branched structures</h3>
+            <p>
+              The above BFACF moves can shift vertices of degree 2 and leave vertices of degree 1 fixed.
+            </p>
+            <p>
+              To accommodate vertices of degree 3, Tamaki (<span style="color: #8B008B">2018</span>) found a new set of moves on the square/cubic lattices which can realise any ambient isotopic transformation:
+            </p>
+            <img width="550" src="fig/bfacf_thetas.png">
+            <p>
+              Note that the degree 3 vertices can move around.
+            </p>
+          </section>
+
+          <section>
+            <h3>BFACF for branched stuctures</h3>
+
+            </br>
+
+            <div class="r-stack">
+              <img height="250" class="fragment current-visible" fade-out src="fig/newnew/BFACF_sq_example_1.svg">
+              <img height="250" class="fragment fade-in-then-out" src="fig/newnew/BFACF_sq_example_2.svg">
+              <img height="250" class="fragment fade-in-then-out" src="fig/newnew/BFACF_sq_example_3.svg">
+              <img height="250" class="fragment fade-in-then-out" src="fig/newnew/BFACF_sq_example_4.svg">
+              <img height="250" class="fragment fade-in-then-out" src="fig/newnew/BFACF_sq_example_5.svg">
+              <img height="250" class="fragment fade-in-then-out" src="fig/newnew/BFACF_sq_example_6.svg">
+              <img height="250" class="fragment fade-in" src="fig/newnew/BFACF_sq_example_7.svg">
+            </div>
+          </section>
+
+          <section>
+            <h3>BFACF for branched structures</h3>
+            <p>
+              Simpler on the triangular lattice:
+            </p>
+            <img width="550" src="fig/BFACF_tri_theta.png">
+            <p>
+              Same moves on the fcc lattice since the faces are still triangles.
+            </p>
+          </section>
+
+          <section>
+            <h3>Wang-Landau method</h3>
+            <p>
+              We combine the BFACF moves with the <em>Wang-Landau method</em> (<a href="https://journals.aps.org/pre/abstract/10.1103/PhysRevE.64.056101"><span style="color: #8B008B">2001</span></a>) to estimate the number $a_n$ of configurations of size $n$.
+            </p>
+            <p>
+              Start with $f=1$ and arrays $G$ and $H$ both all $0$.
+            </p>
+            <ol>
+              <li>For a given configuration $\gamma$, pick a random edge and a random adjacent plaquette. If there is a valid BFACF move (changing $\gamma$ to $\gamma'$), accept with Metropolis probability
+                \[ \mathbb{P}(\gamma \to \gamma') = \min\left\{1, \exp(G(|\gamma|) - G(|\gamma'|))\frac{w(\gamma'\to\gamma)}{w(\gamma\to\gamma')}\right\},\]
+                else stay in state $\gamma$. Here $w(a\to b)$ is the probability that a randomly chosen move on state $a$ will change it to state $b$.
+              </li>
+              <li>Now in state $\gamma''$ (either $\gamma$ or $\gamma'$), increment $G(|\gamma''|)$ by $f$ and $H(|\gamma''|)$ by 1.</li>
+              <li>If $H$ is sufficiently flat, decrease $f$ (e.g. $f \mapsto f/2$), reset $H=0$ and start again. Otherwise continue with the current value of $f$.</li>
+              <li>When $f$ reaches some small threshold, terminate.</li>
+            </ol>
+            <p>
+              If $m$ is the size of the smallest configuration, set $g=G(m)$ and then for each $n$ set
+                \[ A(n) =  \exp(G(n) - g)\cdot a_m. \]
+              Then $A(n) \approx a_n$.
+            </p>
+          </section>
+
+          <section>
+            <h3>Wang-Landau method</h3>
+            <p>
+              Easily generalises to measure more than just size -- e.g. we will estimate $\theta_{n,k}$, the number of thetas of size $n$ with shortest arm of size $k$.
+            </p>
+            <p>
+              Many other variations -- e.g. change how $f$ decreases, or tune $G$ and then use those values to estimate some other quantity.
+            </p>
+          </section>
+
+        </section>
+
+        <section id="thetas2d">
+
+          <section>
+            <h3>Results: 2D</h3>
+          </section>
+
+          <section>
+            <h3>Test case: the number of polygons</h3>
+            <p>
+                The number $p_n$ of SAPs on the lattice is $\sim \text{const.} n^g \mu^n$ where (<a href="//www.springer.com/gp/book/9781402099267"><span style="color: #8B008B">Guttmann 2009</span></a>)
+                  \[ g = \begin{cases} -5/2 & d=2 \\ -2.76279 & d=3 \end{cases} \]
+                and $\mu$ is the connective constant of the lattice (<a href="https://doi.org/10.1088/1742-5468/2004/10/p10008"><span style="color: #8B008B">Jensen 2004</span></a>, <a href="https://iopscience.iop.org/article/10.1088/1751-8121/aca189"><span style="color: #8B008B">Clisby 2022</span></a>):
+                  \begin{align*}
+                    \mu_\text{tri} &= 4.150797226(26) \\
+                    \mu_\text{fcc} &= 10.03705785(14)
+                  \end{align*}
+              </p>
+          </section>
+
+          <section>
+
+          <h3>Test case: the number of polygons</h3>
+            <p>
+                Estimating the exponent $g$ for the triangular lattice (10 independent runs, $N=500$):
+            </p>
+            <img height="350" src="fig/new/tri_poly_plot.svg">
+          </section>
+<!--
+          <section>
+            <h3>The number of thetas</h3>
+
+
+          </section>-->
+
+          <section>
+            <h3>The number of thetas</h3>
+            <p>
+                Expect $\theta_n \sim \text{const.}n^h \mu^n$ for the same $\mu$.
+              </p>
+            <p>
+              Estimating the exponent $h$ for the triangular lattice (10 independent runs, $N=500$):
+            </p>
+            <div class="r-stack">
+              <span class="fragment current-visible" data-fragment-index="0">WL flattening over length and shortest arm:</span>
+              <span class="fragment" data-fragment-index="1">WL flattening over length and middle arm:</span>
+            </div>
+            <div class="r-stack">
+              <img height="350" class="fragment current-visible" data-fragment-index="0" src="fig/newnew/tri_est_h_from_shortest.svg">
+              <img height="350" class="fragment" data-fragment-index="1" src="fig/newnew/tri_est_h_from_middle.svg">
+            </div>
+            <p>
+              $h \approx g+1$ $\leftrightarrow$ $O(n)$ places to position a small loop within a big polygon.
+            </p>
+          </section>
+
+          <section>
+            <h3>The number of thetas</h3>
+            <p>
+              Estimating the exponent $h$ for the square lattice (10 independent runs, $N=500$):
+            </p>
+            <div class="r-stack">
+              <span class="fragment current-visible" data-fragment-index="0">WL flattening over length and shortest arm:</span>
+              <span class="fragment" data-fragment-index="1">WL flattening over length and middle arm:</span>
+            </div>
+            <div class="r-stack">
+              <img height="350" class="fragment current-visible" data-fragment-index="0" src="fig/newnew/sq_est_h_from_shortest.svg">
+              <img height="350" class="fragment" data-fragment-index="1" src="fig/newnew/sq_est_h_from_middle.svg">
+            </div>
+            <p>
+              $h \approx g+1$ $\leftrightarrow$ $O(n)$ places to position a small loop within a big polygon.
+            </p>
+          </section>
+
+          <section>
+            <h3>Mean length of shortest theta arm</h3>
+            <p>
+              If $\sigma(\theta)$ is the length of the shortest arm then expect (?) $\langle \sigma \rangle_n \sim \text{const.}n^s$ for some $s$. Estimating $s$ for the triangular lattice (10 independent runs, $N=500$):
+            </p>
+            <img height="350" src="fig/newnew/tri_est_s_from_shortest.svg">
+          </section>
+
+          <section>
+            <h3>Mean length of shortest theta arm</h3>
+            <p>
+              Estimating $s$ for the square lattice (10 independent runs, $N=500$):
+            </p>
+            <img height="350" src="fig/newnew/sq_est_s_from_shortest.svg">
+          </section>
+
+          <section>
+            <h3>Mean length of second-shortest theta arm</h3>
+            <p>
+              Can also look at $\tau(\theta)$, the second-shortest (second-longest) arm. Triangular lattice (10 independent runs, $N=500$):
+            </p>
+            <img height="350" src="fig/newnew/tri_est_t_from_middle.svg">
+            <p>
+              Likely the same exponent as for shortest arm.
+            </p>
+          </section>
+
+          <section>
+            <h3>Mean length of second-shortest theta arm</h3>
+            <p>
+              Square lattice (10 independent runs, $N=500$):
+            </p>
+            <img height="350" src="fig/newnew/sq_est_t_from_middle.svg">
+            <p>
+              Likely the same exponent as for shortest arm.
+            </p>
+          </section>
+
+          <section>
+            <h3>Ratio of second-shortest to shortest arm</h3>
+            <p>
+              Can also look at the ratio of the two. Expect it to approach a (lattice-independent?) constant. Triangular lattice (10 independent runs, $N=500$):
+            </p>
+            <img height="350" src="fig/new/tri_ratio_middle_shortest.svg">
+          </section>
+
+          <section>
+            <h3>Ratio of second-shortest to shortest arm</h3>
+            <p>
+              Square lattice (10 independent runs, $N=500$):
+            </p>
+            <img height="350" src="fig/new/sq_ratio_middle_shortest.svg">
+          </section>
+
+          <section>
+            <h3>Samples</h3>
+            <p>
+              $N=200$
+            </p>
+            <div class="r-stack">
+              <iframe id="igraph" class="fragment fade-out" data-fragment-index="1" scrolling="no" style="border:none" seamless="seamless" src="fig/sample_tri_theta.html" width="705" height="605"></iframe>
+              <iframe id="igraph" class="fragment fade-in" data-fragment-index="1" scrolling="no" style="border:none" seamless="seamless" src="fig/sample_tri_theta_equal.html" width="705" height="605"></iframe>
+            </div>
+          </section>
+
+          <section>
+            <h3>Distribution of $\sigma$</h3>
+            <p>
+              Distribution of the length of the shortest arm for triangular lattice (mean value indicated in green)
+            </p>
+            <div class="r-stack">
+              <span class="fragment current-visible" data-fragment-index="0">$n=100$:</span>
+              <span class="fragment current-visible" data-fragment-index="1">$n=200$:</span>
+              <span class="fragment current-visible" data-fragment-index="2">$n=300$:</span>
+              <span class="fragment current-visible" data-fragment-index="3">$n=400$:</span>
+              <span class="fragment" data-fragment-index="4">$n=500$:</span>
+            </div>
+            <div class="r-stack">
+              <img height="350" class="fragment current-visible" data-fragment-index="0" src="fig/new/tri_shortest_distn_100.svg">
+              <img height="350" class="fragment current-visible" data-fragment-index="1" src="fig/new/tri_shortest_distn_200.svg">
+              <img height="350" class="fragment current-visible" data-fragment-index="2" src="fig/new/tri_shortest_distn_300.svg">
+              <img height="350" class="fragment current-visible" data-fragment-index="3" src="fig/new/tri_shortest_distn_400.svg">
+              <img height="350" class="fragment" data-fragment-index="4" src="fig/new/tri_shortest_distn_500.svg">
+            </div>
+          </section>
+
+        </section>
+
+        <section id="thetas3d">
+
+          <section>
+            <h3>Results: 3D</h3>
+          </section>
+
+          <section>
+            <h3>The number of thetas</h3>
+            <p>
+              Estimating the exponent $h$ for the fcc lattice (10 independent runs, $N=400$):
+            </p>
+            <div class="r-stack">
+              <span class="fragment current-visible" data-fragment-index="0">WL flattening over length and shortest arm:</span>
+              <span class="fragment" data-fragment-index="1">WL flattening over length and middle arm:</span>
+            </div>
+            <div class="r-stack">
+              <img height="350" class="fragment current-visible" data-fragment-index="0" src="fig/newnew/fcc_est_h_from_shortest.svg">
+              <img height="350" class="fragment" data-fragment-index="1" src="fig/newnew/fcc_est_h_from_middle.svg">
+            </div>
+            <p>
+            <p>
+              Recall that $g \approx -2.76279$ $\rightarrow$ again $h \approx g+1$.
+            </p>
+            <p>
+              Note that these thetas are <em>unknotted</em> so should really use $\mu_0$ but don't have an estimate for that.
+            </p>
+          </section>
+
+          <section>
+            <h3>The number of thetas</h3>
+            <p>
+              Estimating the exponent $h$ for the cubic lattice (10 independent runs, $N=400$):
+            </p>
+            <div class="r-stack">
+              <span class="fragment current-visible" data-fragment-index="0">WL flattening over length and shortest arm:</span>
+              <span class="fragment" data-fragment-index="1">WL flattening over length and middle arm:</span>
+            </div>
+            <div class="r-stack">
+              <img height="350" class="fragment current-visible" data-fragment-index="0" src="fig/newnew/cubic_est_h_from_shortest.svg">
+              <img height="350" class="fragment" data-fragment-index="1" src="fig/newnew/cubic_est_h_from_middle.svg">
+            </div>
+            <p>
+            <p>
+              Again $h \approx g+1$.
+            </p>
+            <p>
+              Note that these thetas are <em>unknotted</em> so should really use $\mu_0$ but don't have a (good) estimate for that.
+            </p>
+          </section>
+
+          <section>
+            <h3>Mean length of shortest theta arm</h3>
+            <p>
+              If $\sigma(\theta)$ is the length of the shortest arm then expect (?) $\langle \sigma \rangle_n \sim \text{const.}n^s$ for some $s$. Estimating $s$ for the FCC lattice (10 independent runs, $N=400$):
+            </p>
+            <img height="350" src="fig/newnew/fcc_est_s_from_shortest.svg">
+          </section>
+
+          <section>
+            <h3>Mean length of shortest theta arm</h3>
+            <p>
+              Estimating $s$ for the cubic lattice (10 independent runs, $N=400$):
+            </p>
+            <img height="350" src="fig/newnew/cubic_est_s_from_shortest.svg">
+          </section>
+
+          <section>
+            <h3>Mean length of second-shortest theta arm</h3>
+            <p>
+              Can also look at $\tau(\theta)$, the second-shortest (second-longest) arm. FCC lattice (10 independent runs, $N=400$):
+            </p>
+            <img height="350" src="fig/newnew/fcc_est_t_from_middle.svg">
+            <p>
+              Likely the same exponent as for shortest arm.
+            </p>
+          </section>
+
+          <section>
+            <h3>Mean length of second-shortest theta arm</h3>
+            <p>
+              Cubic lattice (10 independent runs, $N=400$):
+            </p>
+            <img height="350" src="fig/newnew/cubic_est_t_from_middle.svg">
+            <p>
+              Likely the same exponent as for shortest arm.
+            </p>
+          </section>
+
+          <section>
+            <h3>Ratio of second-shortest to shortest arm</h3>
+            <p>
+              Can also look at the ratio of the two. Expect it to approach a (lattice-independent?) constant. FCC lattice (10 independent runs, $N=400$):
+            </p>
+            <img height="350" src="fig/new/fcc_ratio_middle_shortest.svg">
+          </section>
+
+          <section>
+            <h3>Ratio of second-shortest to shortest arm</h3>
+            <p>
+              Cubic lattice (10 independent runs, $N=400$):
+            </p>
+            <img height="350" src="fig/new/cubic_ratio_middle_shortest.svg">
+          </section>
+
+          <section>
+            <h3>Distribution of $\sigma$</h3>
+            <p>
+              Distribution of the length of the shortest arm for FCC lattice (mean value indicated in green)
+            </p>
+            <div class="r-stack">
+              <span class="fragment current-visible" data-fragment-index="0">$n=100$:</span>
+              <span class="fragment current-visible" data-fragment-index="1">$n=200$:</span>
+              <span class="fragment current-visible" data-fragment-index="2">$n=300$:</span>
+              <span class="fragment" data-fragment-index="3">$n=400$:</span>
+            </div>
+            <div class="r-stack">
+              <img height="350" class="fragment current-visible" data-fragment-index="0" src="fig/new/fcc_shortest_distn_100.svg">
+              <img height="350" class="fragment current-visible" data-fragment-index="1" src="fig/new/fcc_shortest_distn_200.svg">
+              <img height="350" class="fragment current-visible" data-fragment-index="2" src="fig/new/fcc_shortest_distn_300.svg">
+              <img height="350" class="fragment" data-fragment-index="3" src="fig/new/fcc_shortest_distn_400.svg">
+            </div>
+            <p>
+              This contrasts with observed knot size distributions (linear chains) which seem to have a peak at fixed length and then power-law decay (<a href="https://doi.org/10.1021/ma4002963"><span style="color: #8B008B">Tubiana et al 2013</span></a>).
+            </p>
+          </section>
+
+          <section>
+            <h3>Samples</h3>
+            <p>
+              $N=120$
+            </p>
+            <div class="r-stack">
+              <iframe id="igraph" class="fragment fade-out" data-fragment-index="1" scrolling="no" style="border:none" seamless="seamless" src="fig/sample_fcc_theta_120.html" width="605" height="605"></iframe>
+              <iframe id="igraph" class="fragment fade-in" data-fragment-index="1" scrolling="no" style="border:none" seamless="seamless" src="fig/sample_fcc_theta_120_equal.html" width="605" height="605"></iframe>
+            </div>
+          </section>
+
+        </section>
+
+        <section id="futurework">
+          <section>
+            <h3>Ongoing & future work</h3>
+              <ul>
+                <li>Other shapes? (e.g. tadpoles, combs)</li>
+                <li>Thetas with all three arms of equal length</li>
+                <li>How do knots affect things?</li>
+                <li>Minimum sizes of prime theta knots</li>
+                <li>Introduce weights to model R-loops</li>
+              </ul>
+
+          </section>
+        </section>
+
+        <section>
+          <section>
+            Thanks for listening!
+          </section>
+        </section>
+
+
+      </div>
+    </div>
+    <script src="dist/reveal.js"></script>
+    <script src="plugin/math/math.js"></script>
+    <script>
+      Reveal.initialize({
+        plugins: [RevealMath]
+      });
+    </script>
+  </body>
+</html>

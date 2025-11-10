@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="57.868259mm"
+   height="32.412716mm"
+   viewBox="-1.5 -1.2 68.13269 38.161948"
+   version="1.1"
+   id="svg5"
+   inkscape:version="1.2.2 (b0a8486541, 2022-12-01)"
+   sodipodi:docname="square_lattice_tadpole.svg"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview7"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:document-units="mm"
+     showgrid="true"
+     fit-margin-top="0"
+     fit-margin-left="0"
+     fit-margin-right="0"
+     fit-margin-bottom="0"
+     inkscape:zoom="4.4346534"
+     inkscape:cx="106.65997"
+     inkscape:cy="24.128154"
+     inkscape:window-width="1618"
+     inkscape:window-height="1503"
+     inkscape:window-x="308"
+     inkscape:window-y="110"
+     inkscape:window-maximized="0"
+     inkscape:current-layer="layer1"
+     inkscape:showpageshadow="2"
+     inkscape:deskcolor="#d1d1d1">
+    <inkscape:grid
+       type="xygrid"
+       id="grid9"
+       originx="-39.339643"
+       originy="-45.269922" />
+  </sodipodi:namedview>
+  <defs
+     id="defs2" />
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1"
+     transform="translate(-33.609708,-38.725342)">
+    <path
+       style="fill:none;fill-opacity:1;stroke:#000000;stroke-width:0.35321275;stroke-dasharray:none;stroke-opacity:1"
+       d="m 62.510312,52.833109 v -7.546417 h -7.546418 v -7.546423 h -7.546419 v 7.546423 h -7.546417 -7.546423 v 7.546417 7.546419 h 7.546423 v 7.546418 7.546417 h 7.546417 v -7.546417 h 7.546419 v -7.546418 -7.546419 z"
+       id="path1546" />
+    <path
+       style="fill:none;fill-opacity:1;stroke:#000000;stroke-width:0.35321275;stroke-dasharray:none;stroke-opacity:1"
+       d="m 62.510312,52.833109 h 7.546417 v 7.546419 h -7.546417 v 7.546418 h 15.09284 V 45.286692 37.740269 h 7.546412 v 7.546419 h 7.546417 v 7.546417 h -7.546417 v 7.546418 H 100.2424"
+       id="path2028"
+       sodipodi:nodetypes="cccccccc" />
+    <ellipse
+       style="fill:#e50000;fill-opacity:1;stroke:none;stroke-width:0.215616;stroke-dasharray:none;stroke-opacity:1"
+       id="path974"
+       cx="62.510315"
+       cy="52.833111"
+       rx="0.80856276"
+       ry="0.80856204" />
+  </g>
+</svg>
